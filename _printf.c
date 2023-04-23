@@ -42,10 +42,8 @@ int _printf(const char *format, ...)
 			}
 		}
 		else
-		{
 			putchar(*format);
 			count++;
-		}
 		format++;
 	}
 	va_end(args);
