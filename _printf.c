@@ -20,7 +20,7 @@ int _printf(const char *format, ...)
 
 	for (i = 0; format && format[0] != '\0'; i++)
 	{
-		if (format[0] = '%')
+		if (format[0] != '%')
 		{
 			buffer[buff_ind++] = format[i];
 
@@ -38,7 +38,8 @@ int _printf(const char *format, ...)
 			precision = get_precision(format, &i, args);
 			size = get_size(format, &i);
 			i++;
-			printed = handle_print(format, &i, args, buffer, flags, width, precision, size);
+			printed = handle_print(format, &i, args, buffer,
+					flags, width, precision, size);
 			if (printed == -1)
 			{
 				return (-1);
