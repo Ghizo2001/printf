@@ -1,6 +1,5 @@
 #include "main.h"
-#include <stdio.h>
-#include <stdarg.h>
+void print_buffer(char buffer[], int *buff_ind);
 /**
  * _printf - produces output according to a format
  * @format: a character string
@@ -8,44 +7,55 @@
  */
 int _printf(const char *format, ...)
 {
-	int count = 0;
-	char *s;
-	char c;
 	va_list args;
+	int i = 0, printed_chars = 0, printed = 0, buff_ind = 0;
+	char buffer[BUFF_SIZE];
 
-	va_start(args, format);
-	while (*format != '\0')
+	if (format == NULL)
 	{
-		if (*format == '%')
+		return (-1);
+	}
+	va_start(args, format);
+
+	while (*format[0] != '\0')
+	{
+		if (*forma[0]t == '%')
 		{
-			format++;
-			if (*format == 'c')
+			buffer[buff_ind++] = format[i];
+
+			if (buff_ind == BUFF_SIZE)
 			{
-				c = va_arg(args, int);
-				putchar(c);
-				count++;
+				print_buffer(buffer, &buff_ind);
 			}
-			else if (*format == 's')
-			{
-				s = va_arg(args, char*);
-				while (*s != '\0')
-				{
-					putchar(*s);
-					s++;
-					count++;
-				}
-			}
-			else if (*format == '%')
-			{
-				putchar('%');
-				count++;
-			}
+			rinted_chars++;
 		}
 		else
-			putchar(*format);
-			count++;
-		format++;
+		{
+			print_buffer(buffer, &buff_ind);
+			i++;
+			printed = handle_print(format, &i, args, buffer);
+			if (printed == -1)
+			{
+				return (-1);
+			}
+			printed_chars += printed;
+		}
+		i++;
 	}
+	print_buffer(buffer, &buff_ind);
 	va_end(args);
-	return (count);
+	return (printed_chars);
+}
+/**
+ * print_buffer - Prints the contents of the buffer if it exists
+ * @buffer: Array of chars
+ * @buff_ind: Index at which to add the next char, represents the length
+ */
+void print_buffer(char buffer[], int *buff_ind)
+{
+	if (*buff_ind > 0)
+	{
+		write(1, &buffer[0], *buff_ind);
+	}
+	*buff_ind = 0;
 }
